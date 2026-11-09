@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0fdfa">
+  <meta name="description" content="Bilingual EP Core classroom field test guide / EP Core 教室真机实测双语指南">
+  <title>EP Core Field Test Guide / 真机实测指南</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #123b38;
+      --ink-soft: #385a57;
+      --muted: #536b69;
+      --teal: #0f766e;
+      --teal-bright: #0d9488;
+      --teal-pale: #ccfbf1;
+      --paper: #f0fdfa;
+      --card: #ffffff;
+      --line: #c8dfdb;
+      --amber: #b45309;
+      --amber-pale: #fff7ed;
+      --red: #b42318;
+      --red-pale: #fff1f0;
+      --blue: #075985;
+      --blue-pale: #eff8ff;
+      --mono: "Fira Code", "Cascadia Code", Consolas, monospace;
+      --sans: "Fira Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --shadow: 0 8px 24px rgba(17, 75, 68, .07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 var(--sans); }
+    a { color: var(--teal); text-underline-offset: 3px; }
+    a:hover { color: #115e59; }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid #d97706; outline-offset: 3px; }
+    .topbar { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(240,253,250,.96); backdrop-filter: blur(12px); }
+    .topbar-inner { max-width: 1440px; min-height: 68px; margin: auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 10px; background: var(--teal); color: white; font-weight: 800; letter-spacing: -.06em; }
+    .brand-title { font-weight: 750; line-height: 1.2; }
+    .brand-subtitle { color: var(--muted); font-size: .78rem; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: white; }
+    .lang-switch button, .print-button { min-height: 40px; padding: 7px 13px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft); font-weight: 650; cursor: pointer; }
+    .lang-switch button[aria-pressed="true"] { background: var(--teal); color: #fff; }
+    .print-button { border: 1px solid var(--line); background: white; }
+    .lang-block { display: none; }
+    body[data-lang="zh"] .lang-zh, body[data-lang="en"] .lang-en { display: block; }
+    .hero { max-width: 1440px; margin: auto; padding: 44px 24px 28px; }
+    .eyebrow { color: var(--teal); text-transform: uppercase; letter-spacing: .12em; font: 700 .76rem/1.4 var(--mono); }
+    h1 { max-width: 920px; margin: 9px 0 12px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.08; letter-spacing: -.045em; }
+    .hero-copy { max-width: 850px; margin: 0; color: var(--ink-soft); font-size: 1.08rem; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .chip { display: inline-flex; align-items: center; gap: 7px; min-height: 30px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink-soft); font-size: .82rem; font-weight: 650; }
+    .chip strong { color: var(--teal); font-family: var(--mono); }
+    .layout { display: grid; grid-template-columns: 245px minmax(0, 1fr); gap: 28px; max-width: 1440px; margin: 0 auto; padding: 0 24px 64px; align-items: start; }
+    .toc { position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow: auto; padding: 16px 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+    .toc-label { margin: 0 10px 8px; color: var(--muted); font: 700 .73rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .toc a { display: block; padding: 8px 10px; border-radius: 8px; color: var(--ink-soft); text-decoration: none; font-size: .92rem; }
+    .toc a:hover { background: var(--paper); color: var(--teal); }
+    main { min-width: 0; }
+    .section { margin-bottom: 20px; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); }
+    .section-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .section-number { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 10px; background: var(--teal-pale); color: #115e59; font: 700 .9rem var(--mono); }
+    h2 { margin: 0; font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.2; letter-spacing: -.025em; }
+    h3 { margin: 26px 0 10px; font-size: 1.13rem; line-height: 1.35; }
+    h4 { margin: 18px 0 6px; font-size: 1rem; }
+    p { margin: 9px 0 14px; }
+    .lead { color: var(--ink-soft); font-size: 1.02rem; }
+    .callout { margin: 16px 0; padding: 14px 16px; border-left: 4px solid var(--teal); border-radius: 8px; background: #f0fdfa; }
+    .callout.warning { border-color: var(--amber); background: var(--amber-pale); }
+    .callout.danger { border-color: var(--red); background: var(--red-pale); }
+    .callout.info { border-color: var(--blue); background: var(--blue-pale); }
+    .callout strong { display: block; margin-bottom: 3px; }
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 6px 0; padding-left: 2px; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { position: relative; padding-left: 28px; }
+    .checklist li::before { content: ""; position: absolute; top: .33em; left: 0; width: 16px; height: 16px; border: 1.5px solid #78a9a2; border-radius: 4px; background: white; }
+    .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+    .metric { padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fbfffe; }
+    .metric-label { color: var(--muted); font-size: .83rem; font-weight: 650; }
+    .metric-value { margin: 3px 0; color: var(--teal); font: 750 clamp(1.35rem, 2.5vw, 1.8rem)/1.2 var(--mono); }
+    .metric-note { color: var(--muted); font-size: .78rem; }
+    .table-wrap { overflow-x: auto; margin: 14px 0; border: 1px solid var(--line); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { min-width: 110px; padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #e8f7f4; color: #164e49; font-weight: 750; }
+    tr:last-child td { border-bottom: 0; }
+    code, pre { font-family: var(--mono); }
+    code { overflow-wrap: anywhere; padding: .12em .36em; border: 1px solid #d9e7e5; border-radius: 5px; background: #f4f8f7; color: #174f4a; font-size: .9em; }
+    pre { overflow-x: auto; margin: 12px 0; padding: 15px 16px; border: 1px solid #d2e3e0; border-radius: 10px; background: #f7fbfa; color: #123b38; font-size: .86rem; line-height: 1.6; }
+    pre code { padding: 0; border: 0; background: transparent; }
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li { position: relative; min-height: 32px; margin: 12px 0; padding-left: 42px; }
+    .steps li::before { counter-increment: step; content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: 0; color: var(--teal); font: 700 .82rem/1.8 var(--mono); }
+    .pill { display: inline-block; margin: 2px 4px 2px 0; padding: 3px 8px; border-radius: 999px; background: #edf7f5; color: #245d57; font-size: .76rem; font-weight: 700; }
+    .pill.fail { background: #fee4e2; color: #8a1c13; }
+    .small { color: var(--muted); font-size: .88rem; }
+    .footer { max-width: 1440px; margin: 0 auto; padding: 0 24px 38px; color: var(--muted); font-size: .85rem; }
+    .footer-inner { padding-top: 18px; border-top: 1px solid var(--line); }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; gap: 14px; }
+      .toc { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 2px; padding: 9px; }
+      .toc-label { width: 100%; margin-bottom: 3px; }
+      .toc a { padding: 6px 9px; font-size: .82rem; }
+    }
+    @media (max-width: 620px) {
+      body { font-size: 15px; }
+      .topbar-inner { padding: 8px 14px; gap: 8px; }
+      .brand { gap: 8px; }
+      .brand-mark { width: 34px; height: 34px; flex-basis: 34px; }
+      .brand-subtitle { display: none; }
+      .lang-switch button, .print-button { min-height: 38px; padding: 6px 10px; font-size: .84rem; }
+      .print-button { display: none; }
+      .hero { padding: 30px 16px 20px; }
+      .layout { padding: 0 12px 40px; }
+      .section { padding: 18px 16px; border-radius: 13px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .metric { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; }
+      .metric-label, .metric-note { grid-column: 1; }
+      .metric-value { grid-column: 2; grid-row: 1 / span 2; }
+      .footer { padding: 0 16px 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    @media print {
+      body { background: white; color: #111; font-size: 10.5pt; }
+      .topbar { position: static; border: 0; }
+      .top-actions, .toc { display: none !important; }
+      .hero { padding: 18px 0; }
+      .layout { display: block; padding: 0; }
+      .section { break-inside: avoid; margin: 0 0 12px; padding: 18px; box-shadow: none; }
+      body[data-lang="zh"] .lang-en, body[data-lang="en"] .lang-zh { display: none !important; }
+      body[data-lang="zh"] .lang-zh, body[data-lang="en"] .lang-en { display: block !important; }
+      a { color: #111; }
+      pre { white-space: pre-wrap; }
+    }
+  </style>
+</head>
+<body data-lang="zh">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="RoboMaster EP Core field guide">
+        <div class="brand-mark" aria-hidden="true">EP</div>
+        <div>
+          <div class="brand-title">EP Core Field Guide</div>
+          <div class="brand-subtitle">Classroom probe · Community client</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="lang-switch" role="group" aria-label="Language / 语言">
+          <button type="button" data-set-lang="zh" aria-pressed="true" aria-label="切换到中文">中文</button>
+          <button type="button" data-set-lang="en" aria-pressed="false" aria-label="Switch to English">EN</button>
+        </div>
+        <button class="print-button" type="button" onclick="window.print()">
+          <span class="lang-block lang-zh">打印 / 保存 PDF</span>
+          <span class="lang-block lang-en">Print / Save PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero lang-block lang-zh">
+    <div class="eyebrow">ROBOTICS · FIELD TEST · EP CORE</div>
+    <h1>EP Core 教室真机实测指南</h1>
+    <p class="hero-copy">先验证连接和 SDK 视频，再测浏览器链路、控制响应与安全停控。每个阶段都保留原始日志和录像；未实现、未测或未满足安全条件的项目都明确标记，不把烟测结果写成 go/no-go 结论。</p>
+    <div class="hero-meta"><span class="chip">低速默认档</span><span class="chip">代表性载荷</span><span class="chip">操作员 + 观察员</span><span class="chip">离线可用</span></div>
+  </section>
+  <section class="hero lang-block lang-en">
+    <div class="eyebrow">ROBOTICS · FIELD TEST · EP CORE</div>
+    <h1>EP Core Classroom Field Test Guide</h1>
+    <p class="hero-copy">Verify connection and SDK video first, then measure the browser path, control response, and safety stop behavior. Keep raw logs and recordings for every stage. Mark anything unimplemented, unmeasured, or unsafe as pending instead of treating a smoke check as a go/no-go result.</p>
+    <div class="hero-meta"><span class="chip">Default low-speed profile</span><span class="chip">Representative payload</span><span class="chip">Operator + observer</span><span class="chip">Works offline</span></div>
+  </section>
+
+  <div class="layout">
+    <nav class="toc lang-block lang-zh" aria-label="目录">
+      <div class="toc-label">本页导航</div>
+      <a href="#zh-scope">当前能力</a><a href="#zh-safety">人员、场地、安全</a><a href="#zh-setup">建立测试批次</a><a href="#zh-smoke">A · 连接烟测</a><a href="#zh-browser">B · 浏览器延迟</a><a href="#zh-stop">C · 制动基线</a><a href="#zh-fault">D · 故障注入</a><a href="#zh-record">记录与判定</a><a href="#zh-python">Python 3.8</a>
+    </nav>
+    <nav class="toc lang-block lang-en" aria-label="Table of contents">
+      <div class="toc-label">On this page</div>
+      <a href="#en-scope">Current capabilities</a><a href="#en-safety">People, site, safety</a><a href="#en-setup">Create a test run</a><a href="#en-smoke">A · Connection smoke check</a><a href="#en-browser">B · Browser latency</a><a href="#en-stop">C · Stop baseline</a><a href="#en-fault">D · Fault injection</a><a href="#en-record">Records & decision</a><a href="#en-python">Python 3.8</a>
+    </nav>
+
+    <main>
+      <div class="lang-block lang-zh">
+        <section class="section" id="zh-scope">
+          <div class="section-head"><div class="section-number">00</div><div><h2>先看清当前能测什么</h2><div class="small">分开记录 SDK 探针与网页客户端的真实指标。</div></div></div>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-label">视频 glass-to-glass p95</div><div class="metric-value">≤250ms</div><div class="metric-note">直通、转码分别测</div></div>
+            <div class="metric"><div class="metric-label">输入到车体起动 p95</div><div class="metric-value">≤150ms</div><div class="metric-note">必须量到真实运动</div></div>
+            <div class="metric"><div class="metric-label">安全停止目标</div><div class="metric-value">≤1,000ms</div><div class="metric-note">最大总时间，另量 ≤30cm 滑行</div></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>能力</th><th>当前探针</th><th>要求</th></tr></thead><tbody>
+            <tr><td>SDK 连接 / 底盘速度遥测</td><td>可做静止观察</td><td>EP Core、Python 3.8、课堂 LAN</td></tr>
+            <tr><td>SDK 解码视频帧</td><td>可记帧到达事件</td><td>不能当成浏览器延迟</td></tr>
+            <tr><td>SDK 单条速度命令 timeout</td><td>可做一次有人值守低速试验</td><td>封闭场地、载荷、观察员、录像</td></tr>
+            <tr><td>WSS / WebRTC / 网页操控</td><td>当前不支持</td><td>需要 bridge 和网页客户端</td></tr>
+            <tr><td>视频双路径 / 浏览器租约故障</td><td>当前不支持</td><td>需要 relay、租约实现及独立失效保护</td></tr>
+          </tbody></table></div>
+          <div class="callout danger"><strong>安全边界</strong><code>--lease-ms</code> 只是 SDK 单条 <code>drive_speed(timeout=...)</code> 命令超时，不是浏览器心跳租约。它依赖 Windows Python 进程继续运行，停止命令仍要经网络送达机器人。进程终止、电脑睡眠或 Wi-Fi 断开时，不能假设机器人会自动停。相关参数依据 DJI 官方 <a href="https://github.com/dji-sdk/RoboMaster-SDK/blob/master/src/robomaster/robot.py">SDK 源码</a> 与 <a href="https://github.com/dji-sdk/RoboMaster-SDK/blob/master/docs/source/text_sdk/connection.rst">连接文档</a>。</div>
+          <p class="small">本页的阈值是项目试运行工程目标，并非 DJI 或 ISO 的保证值。任何速度档变化都要重新标定。</p>
+        </section>
+
+        <section class="section" id="zh-safety">
+          <div class="section-head"><div class="section-number">01</div><div><h2>人员、场地与安全条件</h2></div></div>
+          <h3>人员分工</h3><ul><li><b>操作员：</b>运行脚本、操作网页、记录试次；站在行驶区外。</li><li><b>安全观察员：</b>只盯机器人和隔离区，负责叫停；不同时操作终端。</li><li><b>记录员：</b>拍摄高速录像、记试次编号和异常，可由第三人兼任。</li></ul>
+          <p>任何运动测试都必须有人值守，并有可立即使用的人工急停。人工急停只用于救援；人工介入的试次记为失败，不计作系统自动停控成功。</p>
+          <h3>必需器材</h3><ul class="checklist"><li>EP Core、充足电量、固定牢靠的代表性教学载荷；记录质量、位置和总质量。</li><li>专用课堂 AP/路由器；关闭访客隔离和 AP client isolation，记录型号、频段、信道、机器人 IP 和信号情况。</li><li>64 位 Python 3.8 venv；不要改系统 Python 3.12。</li><li>需要网页测试时，准备目标手机、平板、笔记本，以及已启动的 bridge 和 web client。</li><li>建议至少 120fps 的高速摄像机、三脚架、可见 LED/计时器、标尺或刻度地垫。</li><li>平整干燥、封闭隔离的运动区；没有人员、易碎物或公共通道。</li></ul>
+          <div class="callout danger"><strong>立即停测并判 FAIL / NO-GO</strong>未按预期停止、非预期加速/转向、人员进入隔离区、载荷松动、地面打滑、录像失效、急停不可用，或任何试次停稳超 1,000ms / 滑行超 30cm。不要为了凑满 30 次而继续风险测试。</div>
+        </section>
+
+        <section class="section" id="zh-setup">
+          <div class="section-head"><div class="section-number">02</div><div><h2>建立一次测试批次</h2></div></div>
+          <ol class="steps"><li>创建唯一批次目录，如 <code>results/2026-11-09-classroom-a/</code>，保存日志、录像、截图和手工表。</li><li>记录日期、场地、机器人型号/SN、固件、电量、载荷、速度档、SDK、Windows、浏览器与 AP 信息。</li><li>一次只连一台机器人。多台同网时指定 SN；用实际 SN 替换命令里的占位符：
+<pre><code>.\.venv\Scripts\python.exe .\probe.py --sn "YOUR_ROBOT_SN" --observe-seconds 30</code></pre>
+单台可自动发现：
+<pre><code>.\.venv\Scripts\python.exe .\probe.py --observe-seconds 30</code></pre></li><li>记录主机网络接口和机器人 IP。录像、浏览器日志、主机日志使用同一试次编号；毫秒级时间以同一高速录像逐帧对齐。</li><li>更换机器人、载荷、地面、速度档或 AP 条件时，另开一组结果，不能混合统计。</li></ol>
+        </section>
+
+        <section class="section" id="zh-smoke">
+          <div class="section-head"><div class="section-number">A</div><div><h2>只读连接与视频烟测</h2><div class="small">机器人保持静止；本阶段不发运动命令。</div></div></div>
+          <ol class="steps"><li>按 Python 环境章节建好 venv，确认 SDK 与 OpenCV import 成功。</li><li>确认机器人在 sta 组网模式，PC 接入同一个非访客 LAN；多机器人传入 <code>--sn</code>。</li><li>运行 30 秒观察命令。探针初始化 SDK、订阅底盘速度、启动 SDK 视频流并写出解码帧到达日志。</li><li>检查 JSONL/CSV 中有 <code>connected</code>、<code>video_stream_started</code>、连续 <code>video_frame</code>、<code>observe_complete</code>。连接失败、无帧或回调异常时先排查，不进入运动阶段。</li><li>重启探针，至少完成 3 次静止烟测，记录成功/失败和首帧到达时间。它只是连接诊断，不是浏览器 WSS/WebRTC 指标。</li></ol>
+        </section>
+
+        <section class="section" id="zh-browser">
+          <div class="section-head"><div class="section-number">B</div><div><h2>浏览器链路与延迟</h2><div class="small">仅在 bridge 与网页端已实现后执行。</div></div></div>
+          <div class="callout warning"><strong>当前包不能测出这些数字</strong>没有网页链路时，将状态写为“未测”，不要用 SDK 视频帧或 SDK 命令 RTT 代替。</div>
+          <h3>浏览器连接成功率</h3><p>Android Chrome、iOS/iPadOS Safari、Windows Edge/Chrome 分别做 10 次冷启动和 10 次 bridge 重启恢复。逐段记录本地网络权限、证书信任（如需要）、WSS、WebRTC ICE、首帧；失败要记阶段、错误码和截图，不隐藏重试。</p>
+          <h3>视频 glass-to-glass：两条路径分开</h3><ol><li>把 LED 闪烁源或计时器放进机器人视野，用同一高速摄像机同时拍到真实事件和浏览器画面。</li><li>每种终端和 AP 条件分别测 <code>h264-passthrough</code> 与 <code>transcode</code>；记录分辨率、帧率、编码设置、bridge CPU、丢帧和冻结。</li><li>每路径至少 100 个可辨事件。计算：<code>延迟 ms = (屏幕事件帧号 − LED事件帧号) / 摄像帧率 × 1000</code>。固定角度、曝光和屏幕亮度，并记测量误差。</li><li>分别报告 p50、p95、最大值、有效样本数；目标 p95 ≤250ms。SDK 解码预览标为 <code>sdk-decoded-only</code>，不能冒充直通或转码。</li></ol>
+          <h3>控制输入到物理起动</h3><ol><li>只用已确认限速的网页控制；先确认松手停止/租约逻辑。</li><li>高速摄像同时拍到手指或鼠标动作、网页输入指示和机器人车轮/车体。起点是实际触摸/点击，终点是首次可辨物理运动。</li><li>每设备/网络条件至少 100 次有效起动；输入动作和速度档一致，试次间等车完全停稳。</li><li>报告 p50、p95、最大值；目标 p95 ≤150ms。ACK、RTT、遥测只作辅助。</li></ol>
+        </section>
+
+        <section class="section" id="zh-stop">
+          <div class="section-head"><div class="section-number">C</div><div><h2>低速实体制动基线</h2></div></div>
+          <p>只在 A 阶段稳定、隔离区清空、观察员和人工急停在位后开始。首次只做一次短运动，确认方向、低速档、载荷和录像范围。</p>
+          <pre><code>.\.venv\Scripts\python.exe .\probe.py --sn "YOUR_ROBOT_SN" --arm-motion --lease-ms 400 --speed 0.10</code></pre>
+          <p>用实际 SN 替换占位符。观察员复核后，在提示处输入 <code>ARM-ONE-TRIAL</code>。脚本只发一条带 SDK timeout 的速度命令；速度不得超过 0.15m/s。单次表现异常时立即终止，不重试。</p>
+          <div class="callout info"><strong>不要把它称为网页租约验收</strong>该试验不测网页 100ms 心跳，也不能证明 300–500ms 检测窗口。录像必须覆盖故障/命令、停止和完全静止；逐帧记故障 t0、检测 t1（如果可见）、停命令 t2（如果可见）、静止 t3，测 t3−t0、t3−t2 和滑行距离。</div>
+          <div class="table-wrap"><table><thead><tr><th>阶段</th><th>测量口径</th><th>目标</th></tr></thead><tbody><tr><td>租约/检测</td><td>100ms 心跳；比较丢失 3、4、5 次</td><td>300–500ms</td></tr><tr><td>判定后制动</td><td>停止命令至物理静止</td><td>≤500ms</td></tr><tr><td>故障到完全静止</td><td>以故障注入真实起点计算</td><td>最大 ≤1,000ms</td></tr><tr><td>滑行距离</td><td>故障点至最终静止，统一参考点</td><td>最大 ≤30cm</td></tr></tbody></table></div>
+          <p>以上都必须在运动中、低速默认档和代表性载荷下测；改变速度档要重新标定。人工急停介入的试次记失败。</p>
+        </section>
+
+        <section class="section" id="zh-fault">
+          <div class="section-head"><div class="section-number">D</div><div><h2>故障注入：先过安全门</h2></div></div>
+          <div class="callout danger"><strong>当前不能直接做运动中的进程/网络故障注入</strong>故障注入不是探针脚本功能。bridge 停止策略和机器人端或独立进程失效保护未验证前，不要在开放地面上杀进程、断 Wi-Fi 或让 Windows 睡眠；停止命令可能无法送达。缺少独立保护时，只做静止恢复测试，并将运动故障试验标为 blocked / NO-GO。</div>
+          <p>安全门通过之后，每类故障单独重复 30 次：控制租约超时/停止心跳、浏览器关闭/标签崩溃、Wi-Fi 断连/漫游、bridge 进程结束、Windows 睡眠/唤醒。</p>
+          <ol class="steps"><li>先静止时演练注入和恢复，确认每次只影响一段链路。</li><li>每次试验都使用低速默认档、相同代表性载荷、固定测试路线；高速录像开始后再运动。</li><li>将故障触发动作作为 t0；记录检测、停止命令、完全静止和滑行距离。</li><li>车体静止后恢复链路，确认重连不会恢复旧运动命令，再做下一次。逐次编号 01/30–30/30，不删失败和无效结果。</li><li>任何一次漏停、超时、超距或需要人工救援，立即停测并判 NO-GO；不得为凑样本继续冒险。</li></ol>
+          <p>Windows 睡眠和 bridge 崩溃尤其危险。没有独立看门狗/刹车路径，不得在运动中测试这两类故障。</p>
+        </section>
+
+        <section class="section" id="zh-record">
+          <div class="section-head"><div class="section-number">08</div><div><h2>每次记录与最终判定</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>字段</th><th>记录值</th><th>字段</th><th>记录值</th></tr></thead><tbody>
+            <tr><td>批次 / 机器人 SN</td><td>＿＿＿＿</td><td>故障类型 / 次数</td><td>＿＿＿＿</td></tr>
+            <tr><td>速度档 / 载荷</td><td>＿＿＿＿</td><td>故障 t0 / 检测 t1</td><td>＿＿＿＿</td></tr>
+            <tr><td>停命令 t2 / 静止 t3</td><td>＿＿＿＿</td><td>总时间 / 制动时间</td><td>＿＿＿＿</td></tr>
+            <tr><td>最大滑行距离</td><td>＿＿＿＿ cm</td><td>自动停控 / 救援</td><td>是 / 否</td></tr>
+            <tr><td>录像 / JSONL / CSV</td><td>＿＿＿＿</td><td>异常备注</td><td>＿＿＿＿</td></tr>
+          </tbody></table></div>
+          <p>录像换算：<code>时间差 ms = 帧差 / 实际摄像帧率 × 1000</code>。例如 240fps 时每帧约 4.17ms。滑行距离用地面标尺为主、录像复核；固定车体参考点，不要跨批次更换。</p>
+          <ul><li>视频：两路径各自有效样本、p50/p95/max、冻结/丢帧、CPU 峰值。</li><li>控制：每设备有效样本、p50/p95/max，网页物理起动与辅助 RTT 分列。</li><li>安全：各故障成功数/30、最大总停稳、最大制动、最大滑行、人工救援次数。</li><li>连接：各平台冷启动和 bridge 恢复成功率及失败阶段。</li></ul>
+          <div class="callout"><strong>GO</strong>每个平台路径达到规定样本和阈值；每类安全故障 30/30 自动停控；最大总停稳 ≤1,000ms、最大滑行 ≤30cm；录像和日志可复核。</div>
+          <div class="callout danger"><strong>NO-GO / 未判定</strong>任何安全触发失败、时间或距离超标、异常运动为 NO-GO。组件尚未实现、样本不足、录像不可辨或隔离不足，应写“未测 / blocked”，不能写成通过。</div>
+        </section>
+
+        <section class="section" id="zh-python">
+          <div class="section-head"><div class="section-number">PY</div><div><h2>Python 3.8 独立环境</h2></div></div>
+          <ol class="steps"><li>安装 64 位 CPython 3.8，并勾选 Python Launcher；不要覆盖系统 Python。</li><li>在探针目录 PowerShell 执行：
+<pre><code>py -3.8 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li><li>验证版本和依赖：
+<pre><code>.\.venv\Scripts\python.exe --version
+.\.venv\Scripts\python.exe -c "import robomaster, cv2; print(robomaster.__version__); print(cv2.__version__)"</code></pre>
+预期 SDK 为 <code>0.1.1.68</code>。如找不到 CPython 3.8 / Windows x64 wheel，记录完整错误并停止；不要静默从源码编译旧媒体扩展。</li><li>机器人与主机接入同一非访客 LAN，确认 AP 没有客户端隔离。Windows 防火墙只允许专用网络所需的本地流量，不向公用网络开放。</li></ol>
+          <p class="small">现场结束：停止视频和控制会话，确认车体静止；保存原始日志、表格和录像副本到团队位置。</p>
+        </section>
+      </div>
+
+      <div class="lang-block lang-en">
+        <section class="section" id="en-scope">
+          <div class="section-head"><div class="section-number">00</div><div><h2>Know what the current probe can measure</h2><div class="small">Keep SDK checks separate from real browser-client metrics.</div></div></div>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-label">Video glass-to-glass p95</div><div class="metric-value">≤250ms</div><div class="metric-note">Measure passthrough and transcode separately</div></div>
+            <div class="metric"><div class="metric-label">Input-to-motion p95</div><div class="metric-value">≤150ms</div><div class="metric-note">Measure physical motion</div></div>
+            <div class="metric"><div class="metric-label">Safety stop target</div><div class="metric-value">≤1,000ms</div><div class="metric-note">Maximum total time; also ≤30cm coast</div></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Capability</th><th>Current probe</th><th>Requirement</th></tr></thead><tbody>
+            <tr><td>SDK connection / chassis telemetry</td><td>Stationary observation supported</td><td>EP Core, Python 3.8, classroom LAN</td></tr>
+            <tr><td>SDK-decoded video frames</td><td>Frame-arrival events supported</td><td>Not browser latency</td></tr>
+            <tr><td>Single SDK command timeout</td><td>One attended low-speed trial</td><td>Enclosed area, payload, observer, recording</td></tr>
+            <tr><td>WSS / WebRTC / browser control</td><td>Not supported by this package</td><td>Bridge and web client required</td></tr>
+            <tr><td>Dual video paths / browser lease faults</td><td>Not supported by this package</td><td>Relay, lease implementation, independent fail-safe</td></tr>
+          </tbody></table></div>
+          <div class="callout danger"><strong>Safety boundary</strong><code>--lease-ms</code> is only the timeout for one SDK <code>drive_speed(timeout=...)</code> command; it is not a browser heartbeat lease. It depends on the Windows Python process staying alive, and the stop command still has to reach the robot over the network. Do not assume the robot will stop after process exit, sleep, or Wi-Fi loss. See DJI's official <a href="https://github.com/dji-sdk/RoboMaster-SDK/blob/master/src/robomaster/robot.py">SDK source</a> and <a href="https://github.com/dji-sdk/RoboMaster-SDK/blob/master/docs/source/text_sdk/connection.rst">connection guide</a>.</div>
+          <p class="small">These are project trial targets, not guarantees from DJI or ISO. Recalibrate every speed profile.</p>
+        </section>
+
+        <section class="section" id="en-safety">
+          <div class="section-head"><div class="section-number">01</div><div><h2>People, test area, and safety conditions</h2></div></div>
+          <h3>Roles</h3><ul><li><b>Operator:</b> runs the script, uses the browser, and records trials; stays outside the travel path.</li><li><b>Safety observer:</b> watches only the robot and exclusion zone; calls the stop and does not operate the test computer.</li><li><b>Recorder:</b> captures high-speed video, trial IDs, and anomalies; a third person may fill this role.</li></ul>
+          <p>Never run a motion test unattended. Keep a manual emergency stop immediately available. It is for rescue only; any trial requiring it is a failure, not an automatic safety stop.</p>
+          <h3>Required equipment</h3><ul class="checklist"><li>EP Core, charged battery, secured representative teaching payload; record mass, position, and total load.</li><li>Dedicated classroom AP/router; disable guest isolation and AP client isolation. Record model, band, channel, robot IP, and signal conditions.</li><li>64-bit Python 3.8 venv. Do not change system Python 3.12.</li><li>For browser testing, prepare target phones/tablets/laptops and a running bridge and web client.</li><li>High-speed camera (120fps or faster recommended), tripod, visible LED/timer, and ruler or marked floor mat.</li><li>Flat, dry, enclosed test area with a clear exclusion zone; never test in a class or public corridor.</li></ul>
+          <div class="callout danger"><strong>Stop immediately and mark FAIL / NO-GO</strong>Unexpected motion or failure to stop, anyone entering the exclusion zone, loose payload, slippery floor, failed recording, unavailable emergency stop, or any trial exceeding 1,000ms / 30cm. Do not continue risky trials just to reach 30 samples.</div>
+        </section>
+
+        <section class="section" id="en-setup">
+          <div class="section-head"><div class="section-number">02</div><div><h2>Create a test run</h2></div></div>
+          <ol class="steps"><li>Create a unique run folder, e.g. <code>results/2026-11-09-classroom-a/</code>. Keep logs, recordings, screenshots, and worksheets together.</li><li>Record date, site, robot model/SN, firmware, battery, payload, speed profile, SDK, Windows, browser, and AP details.</li><li>Connect to one robot at a time. For multiple robots on the same LAN, specify the SN. Replace the placeholder with the actual serial number:
+<pre><code>.\.venv\Scripts\python.exe .\probe.py --sn "YOUR_ROBOT_SN" --observe-seconds 30</code></pre>
+For one robot, automatic discovery is available:
+<pre><code>.\.venv\Scripts\python.exe .\probe.py --observe-seconds 30</code></pre></li><li>Record the PC network interface and robot IP. Use the same trial ID for video and logs; align millisecond measurements frame by frame in one high-speed recording rather than relying on device wall clocks.</li><li>Start a separate result group when the robot, payload, floor, speed profile, or AP condition changes. Do not mix groups.</li></ol>
+        </section>
+
+        <section class="section" id="en-smoke">
+          <div class="section-head"><div class="section-number">A</div><div><h2>Stationary connection and video smoke check</h2><div class="small">Keep the robot still; send no motion command in this stage.</div></div></div>
+          <ol class="steps"><li>Set up the Python 3.8 venv and confirm the SDK and OpenCV imports work.</li><li>Confirm the robot is in <code>sta</code> mode and the PC is on the same non-guest LAN. Pass <code>--sn</code> when multiple robots are present.</li><li>Run the 30-second observation command. The probe initializes the SDK, subscribes to chassis velocity, starts SDK video, and logs decoded frame arrivals.</li><li>Check the JSONL/CSV for <code>connected</code>, <code>video_stream_started</code>, repeated <code>video_frame</code>, and <code>observe_complete</code> events. If connection fails, no frames arrive, or a callback errors, troubleshoot before any motion test.</li><li>Restart the probe for at least three stationary checks. Record success/failure and first-frame arrival. This is connection diagnostics, not a browser WSS/WebRTC metric.</li></ol>
+        </section>
+
+        <section class="section" id="en-browser">
+          <div class="section-head"><div class="section-number">B</div><div><h2>Browser connectivity and latency</h2><div class="small">Run only after the bridge and web client are implemented.</div></div></div>
+          <div class="callout warning"><strong>The current package cannot produce these metrics</strong>If the browser path is not implemented, record “not measured.” Do not substitute SDK frame arrival or SDK command RTT.</div>
+          <h3>Browser connection success rate</h3><p>For Android Chrome, iOS/iPadOS Safari, and Windows Edge/Chrome, run 10 cold starts and 10 bridge-restart recoveries per device. Record local-network permission, certificate trust if required, WSS, WebRTC ICE, and first frame separately. Preserve the failure stage, error code, and screenshot; do not hide retries.</p>
+          <h3>Video glass-to-glass: measure both paths separately</h3><ol><li>Place a visible blinking LED or timer in the robot camera view. Use one high-speed camera to capture both the real event and the browser screen.</li><li>For each device and AP condition, run <code>h264-passthrough</code> and <code>transcode</code> separately. Record resolution, frame rate, encoding settings, bridge CPU, dropped frames, and freezes.</li><li>Collect at least 100 visible events per path. Calculate <code>latency ms = (screen event frame − LED event frame) / camera frame rate × 1000</code>. Keep camera angle, exposure, and screen brightness fixed; note measurement error.</li><li>Report p50, p95, maximum, and valid sample count for each path. Target p95 ≤250ms. Label an SDK preview <code>sdk-decoded-only</code>; do not call it passthrough or transcode.</li></ol>
+          <h3>Control input to physical motion</h3><ol><li>Use only browser control with verified speed limiting; first confirm release/stop and lease behavior.</li><li>Record the operator's finger/mouse action, browser input indicator, and robot wheels/body in one high-speed view. Start at actual touch/click; stop at first visible physical motion.</li><li>Collect at least 100 valid starts per device/network condition. Keep input duration and speed profile consistent; wait for a complete stop between trials.</li><li>Report p50, p95, and maximum. Target p95 ≤150ms. ACK, RTT, and telemetry are supporting data only.</li></ol>
+        </section>
+
+        <section class="section" id="en-stop">
+          <div class="section-head"><div class="section-number">C</div><div><h2>Low-speed physical stop baseline</h2></div></div>
+          <p>Proceed only after Stage A is stable and the exclusion zone, observer, and manual emergency stop have been checked. Start with one short movement to confirm direction, low-speed profile, payload, and camera framing.</p>
+          <pre><code>.\.venv\Scripts\python.exe .\probe.py --sn "YOUR_ROBOT_SN" --arm-motion --lease-ms 400 --speed 0.10</code></pre>
+          <p>Replace the placeholder with the actual SN. After the observer confirms the clear zone, enter <code>ARM-ONE-TRIAL</code> at the prompt. The script sends one speed command with an SDK timeout; do not exceed 0.15m/s. Stop immediately if the first trial behaves unexpectedly.</p>
+          <div class="callout info"><strong>This is not browser lease acceptance</strong>This trial does not test a 100ms browser heartbeat or prove a 300–500ms detection window. Record fault t0, detection t1 if visible, stop command t2 if visible, and physical rest t3 frame by frame. Measure t3−t0, t3−t2, and coast distance.</div>
+          <div class="table-wrap"><table><thead><tr><th>Stage</th><th>Measurement</th><th>Target</th></tr></thead><tbody><tr><td>Lease / detection</td><td>100ms heartbeat; compare 3, 4, and 5 missed beats</td><td>300–500ms</td></tr><tr><td>Braking after decision</td><td>Stop command to physical rest</td><td>≤500ms</td></tr><tr><td>Fault to complete rest</td><td>Start at actual fault injection</td><td>Maximum ≤1,000ms</td></tr><tr><td>Coast distance</td><td>Fault point to final rest, fixed reference point</td><td>Maximum ≤30cm</td></tr></tbody></table></div>
+          <p>Measure while moving, on the default low-speed profile, with a representative payload. Recalibrate any other speed profile. A rescue stop is a failed trial.</p>
+        </section>
+
+        <section class="section" id="en-fault">
+          <div class="section-head"><div class="section-number">D</div><div><h2>Fault injection: pass the safety gate first</h2></div></div>
+          <div class="callout danger"><strong>Do not inject process/network faults during open-floor motion yet</strong>Fault injection is not implemented by this probe. Until bridge stop behavior and a robot-side or independent process fail-safe are verified, do not kill the process, disconnect Wi-Fi, or put Windows to sleep while moving. The stop command may not reach the robot. Without independent protection, perform recovery checks only while stationary and mark motion fault testing blocked / NO-GO.</div>
+          <p>After the safety gate passes, run 30 separate trials for each fault: control lease/heartbeat loss, browser close or tab crash, Wi-Fi disconnect/roam, bridge process exit, and Windows sleep/wake.</p>
+          <ol class="steps"><li>First rehearse injection and recovery while stationary; confirm which link is affected and test only one fault at a time.</li><li>For every motion trial, use the default low-speed profile, same representative payload, and fixed test route. Start high-speed recording before motion.</li><li>Use the visible fault-trigger action as t0. Record detection, stop command, full rest, and coast distance.</li><li>Inject one fault at a time. After the robot stops, restore the link and confirm reconnect cannot resume an old motion command. Number every attempt 01/30 through 30/30; retain failed and invalid results.</li><li>Any missed stop, over-limit time/distance, or rescue intervention means stop and NO-GO. Do not continue just to fill the sample count.</li></ol>
+          <p>Windows sleep and bridge crashes are especially hazardous. Never test these during motion without an independent watchdog/braking path.</p>
+        </section>
+
+        <section class="section" id="en-record">
+          <div class="section-head"><div class="section-number">08</div><div><h2>Per-trial record and final decision</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Field</th><th>Value</th><th>Field</th><th>Value</th></tr></thead><tbody>
+            <tr><td>Run / robot SN</td><td>＿＿＿＿</td><td>Fault / attempt</td><td>＿＿＿＿</td></tr>
+            <tr><td>Speed / payload</td><td>＿＿＿＿</td><td>Fault t0 / detect t1</td><td>＿＿＿＿</td></tr>
+            <tr><td>Stop t2 / rest t3</td><td>＿＿＿＿</td><td>Total / braking time</td><td>＿＿＿＿</td></tr>
+            <tr><td>Maximum coast distance</td><td>＿＿＿＿ cm</td><td>Auto stop / rescue</td><td>Yes / No</td></tr>
+            <tr><td>Video / JSONL / CSV</td><td>＿＿＿＿</td><td>Notes / anomaly</td><td>＿＿＿＿</td></tr>
+          </tbody></table></div>
+          <p>Convert video frames with <code>time ms = frame difference / actual camera fps × 1000</code>. At 240fps, one frame is about 4.17ms. Use the floor ruler as the primary distance measurement and video as confirmation. Keep one fixed body reference point throughout the run.</p>
+          <ul><li>Video: valid samples, p50/p95/max, freezes/drops, and peak CPU for each path.</li><li>Control: valid samples, p50/p95/max per device; separate physical browser input-to-motion from supporting RTT.</li><li>Safety: automatic stops out of 30, maximum total stop, maximum braking time, maximum coast, and rescue count per fault.</li><li>Connectivity: cold-start and bridge-recovery rate and failure stage per platform.</li></ul>
+          <div class="callout"><strong>GO</strong>Every platform path meets its sample and threshold; every safety fault stops automatically in 30/30 trials; maximum total stop ≤1,000ms and coast ≤30cm; recordings and logs are reviewable.</div>
+          <div class="callout danger"><strong>NO-GO / NOT DETERMINED</strong>Any failed safety trigger, over-limit time/distance, or unexplained motion is NO-GO. Unimplemented components, insufficient samples, unreadable video, or inadequate isolation are “not measured / blocked,” never a pass.</div>
+        </section>
+
+        <section class="section" id="en-python">
+          <div class="section-head"><div class="section-number">PY</div><div><h2>Isolated Python 3.8 environment</h2></div></div>
+          <ol class="steps"><li>Install 64-bit CPython 3.8 and the Python Launcher. Do not replace system Python.</li><li>In PowerShell, from the probe directory:
+<pre><code>py -3.8 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li><li>Verify the interpreter and dependencies:
+<pre><code>.\.venv\Scripts\python.exe --version
+.\.venv\Scripts\python.exe -c "import robomaster, cv2; print(robomaster.__version__); print(cv2.__version__)"</code></pre>
+Expected SDK version: <code>0.1.1.68</code>. If no CPython 3.8 / Windows x64 wheel is available, capture the full error and stop; do not silently compile the legacy media extension from source.</li><li>Put the robot and PC on the same non-guest LAN; confirm client isolation is off. Allow only required local traffic on the Windows Private network profile, never the Public profile.</li></ol>
+          <p class="small">At the end, stop video and control sessions and confirm the robot is still. Save copies of the original logs, worksheets, and recordings to the team location.</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer class="footer"><div class="footer-inner">
+    <div class="lang-block lang-zh">页面设计：UI/UX Pro Max 的 Swiss 极简文档方向；教育青绿色系；移动优先、键盘可达、减少动效。内容基于探针包当前能力，离线单文件运行。</div>
+    <div class="lang-block lang-en">Design: UI/UX Pro Max Swiss minimal documentation direction, education teal palette, mobile-first layout, keyboard access, and reduced motion. Content reflects current probe capabilities. This is a single offline-ready HTML file.</div>
+  </div></footer>
+  <script>
+    (function () {
+      const buttons = Array.from(document.querySelectorAll('[data-set-lang]'));
+      function setLanguage(lang) {
+        if (lang !== 'zh' && lang !== 'en') return;
+        document.body.dataset.lang = lang;
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        buttons.forEach((button) => {
+          const active = button.dataset.setLang === lang;
+          button.setAttribute('aria-pressed', String(active));
+        });
+        try { localStorage.setItem('epcore-field-guide-language', lang); } catch (_) {}
+      }
+      buttons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.setLang)));
+      try {
+        const saved = localStorage.getItem('epcore-field-guide-language');
+        if (saved === 'en' || saved === 'zh') setLanguage(saved);
+      } catch (_) {}
+    }());
+  </script>
+</body>
+</html>
